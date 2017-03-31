@@ -1,0 +1,45 @@
+{
+  "_moduleName": "p2m.migration",
+  "_entries": [
+    "migration"
+  ],
+  "name": "p2m-migration",
+  "version": "1.0.0",
+  "description": "Sequelize migration enhance module to support most P2M project to do migration.",
+  "main": "main/migration.js",
+  "repository": "https://github.com/colin-han/p2m-migration.git",
+  "author": "Colin Han <biz@colinhan.info>",
+  "license": "MIT",
+  "dependencies": {
+    "co": "^4.6.0",
+    "mysql": "^2.13.0",
+    "p2m-common-logger": "^1.0.0",
+    "sequelize": "^3.30.2",
+    "umzug": "^1.11.0",
+    "yargs": "^7.0.2"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.0",
+    "babel-plugin-external-helpers": "^6.22.0",
+    "babel-plugin-transform-es2015-modules-amd": "^6.24.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-latest": "^6.24.0",
+    "chai": "^3.5.0",
+    "del": "^2.2.2",
+    "istanbul": "^0.4.5",
+    "jquery": "^3.2.1",
+    "mocha": "^3.2.0",
+    "rollup": "^0.41.6",
+    "rollup-plugin-babel": "^2.7.1",
+    "rollup-plugin-commonjs": "^8.0.2",
+    "rollup-plugin-node-resolve": "^2.0.0",
+    "rollup-plugin-uglify": "^1.0.1"
+  },
+  "scripts": {
+    "build": "node tools/build.js",
+    "prepublish": "npm build && npm test",
+    "test": "mocha test/**/*.spec.js",
+    "test:watch": "mocha --reporter min --watch test/**/*.spec.js",
+    "test:cover": "babel-node ./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha test/**/*.spec.js"
+  }
+}
