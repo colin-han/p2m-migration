@@ -61,6 +61,11 @@ export function down(options) {
   umzug.down({to: options.target});
 }
 
+export function version(options) {
+  let pkg = require('../package.json');
+  console.log(pkg.version);
+}
+
 if (!module.parent) {
   let argv = yargs
       .usage('Usage: $0 <command> [options]')
@@ -89,6 +94,9 @@ if (!module.parent) {
           describe: 'target version to downward to.'
         }
       }, down)
+      .command('version', 'show version number of p2migration.', {
+
+      }, version)
       .help()
       .argv;
 }
