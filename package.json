@@ -4,7 +4,7 @@
     "migration"
   ],
   "name": "p2m-migration",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Sequelize migration enhance module to support most P2M project to do migration.",
   "main": "main/migration.js",
   "repository": "https://github.com/colin-han/p2m-migration.git",
@@ -41,5 +41,8 @@
     "test": "mocha test/**/*.spec.js",
     "test:watch": "mocha --reporter min --watch test/**/*.spec.js",
     "test:cover": "babel-node ./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha test/**/*.spec.js"
+  },
+  "bin": {
+    "p2migration": "main/migration.js"
   }
 }
