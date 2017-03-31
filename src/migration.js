@@ -12,9 +12,9 @@ import config from 'config';
 
 import seeders from './seeders';
 
-function initUmzug(options) {
+function getDbOptions(options) {
   let cfg = config.database || {};
-  const sequelize = new Sequelize({
+  return {
     host: options.host || cfg.host || 'mysql',
     username: options.username || cfg.username || 'root',
     password: options.password || cfg.password,
@@ -23,46 +23,68 @@ function initUmzug(options) {
     define: {
       freezeTableName: true,
     }
-  });
-  const queryInterface = new QueryInterface(sequelize);
+  };
+}
 
-//noinspection SpellCheckingInspection
+function initDatabase(options) {
+  let opt2 = Object.assign({}, options);
+  opt2.database = 'mysql';
+
+  let sequelize = new Sequelize(opt2);
+
+  return sequelize.query('CREATE DATABASE IF NOT EXISTS :dbname COLLATE = "utf8_general_ci"')
+}
+
+function getUmzug(options, queryInterface, sequelize) {
   return new Umzug({
-    storage: 'sequelize',
-    storageOptions: {
-      sequelize: sequelize,
-    },
-    logging: false,
-    upName: 'up',
-    downName: 'down',
-    migrations: {
-      params: [queryInterface, Sequelize],
-      path: options.migrations,
-      pattern: /^\d+[\w-]+\.js$/,
-      wrap: function (fun) {
-        return fun;
+      storage: 'sequelize',
+      storageOptions: {
+        sequelize: sequelize,
+      },
+      logging: false,
+      upName: 'up',
+      downName: 'down',
+      migrations: {
+        params: [queryInterface, Sequelize],
+        path: options.migrations,
+        pattern: /^\d+[\w-]+\.js$/,
+        wrap: function (fun) {
+          return fun;
+        }
       }
-    }
-  });
+    });
+}
+function umzugUp(options, dbOpt) {
+  let sequelize = new Sequelize(dbOpt);
+  let queryInterface = new QueryInterface(sequelize);
+  let umzug = getUmzug(options, queryInterface, sequelize);
+  return umzug.up(options.target === '@' ? {} : {to: options.target});
 }
 
 export function up(options) {
-  const umzug = initUmzug(options);
+  let dbOpt = getDbOptions(options);
+
   console.log(`Upward database to version: ${options.target}`);
   //noinspection JSUnresolvedFunction
   co(function*() {
-    yield umzug.up(options.target === '@' ? {} : {to: options.target});
-    yield seeders(options);
+    yield initDatabase(dbOpt);
+
+    yield umzugUp(options, dbOpt);
+
+    yield seeders(options, queryInterface, Sequelize);
   }).catch(console.error);
 }
 
 export function down(options) {
-  const umzug = initUmzug(options);
+  let dbOpt = getDbOptions(options);
+  let sequelize = new Sequelize(dbOpt);
+  let queryInterface = new QueryInterface(sequelize);
+  let umzug = getUmzug(options, queryInterface, sequelize);
   console.log(`Downward database to version: ${options.target}`);
   umzug.down({to: options.target});
 }
 
-export function version(options) {
+export function version() {
   let pkg = require('../package.json');
   console.log(pkg.version);
 }

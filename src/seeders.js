@@ -6,7 +6,7 @@ const co = require('co');
 const fs = require('fs');
 const path = require('path');
 
-export default function(options) {
+export default function(options, queryInterface, Sequelize) {
   let seeders = fs.readdirSync(options.seeders)
       .filter(function (file) {
         return file !== 'index.js' && file.slice(-3) === '.js';
@@ -17,7 +17,7 @@ export default function(options) {
     for (let i = 0; i < seeders.length; i++) {
       let seeder = path.join(__dirname, seeders[i]);
       let seederFunc = require(seeder);
-      yield seederFunc();
+      yield seederFunc(queryInterface, Sequelize);
     }
   });
 }
