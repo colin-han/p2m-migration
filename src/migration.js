@@ -32,27 +32,28 @@ function initDatabase(options) {
 
   let sequelize = new Sequelize(opt2);
 
-  return sequelize.query('CREATE DATABASE IF NOT EXISTS :dbname COLLATE = "utf8_general_ci"')
+  return sequelize.query('CREATE DATABASE IF NOT EXISTS :dbname COLLATE = "utf8_general_ci"',
+      {reqlacements: {dbname: options.database}});
 }
 
 function getUmzug(options, queryInterface, sequelize) {
   return new Umzug({
-      storage: 'sequelize',
-      storageOptions: {
-        sequelize: sequelize,
-      },
-      logging: false,
-      upName: 'up',
-      downName: 'down',
-      migrations: {
-        params: [queryInterface, Sequelize],
-        path: options.migrations,
-        pattern: /^\d+[\w-]+\.js$/,
-        wrap: function (fun) {
-          return fun;
-        }
+    storage: 'sequelize',
+    storageOptions: {
+      sequelize: sequelize,
+    },
+    logging: false,
+    upName: 'up',
+    downName: 'down',
+    migrations: {
+      params: [queryInterface, Sequelize],
+      path: options.migrations,
+      pattern: /^\d+[\w-]+\.js$/,
+      wrap: function (fun) {
+        return fun;
       }
-    });
+    }
+  });
 }
 function umzugUp(options, dbOpt) {
   let sequelize = new Sequelize(dbOpt);
@@ -117,9 +118,7 @@ if (!module.parent) {
           describe: 'target version to downward to.'
         }
       }, down)
-      .command('version', 'show version number of p2migration.', {
-
-      }, version)
+      .command('version', 'show version number of p2migration.', {}, version)
       .help()
       .argv;
 }
