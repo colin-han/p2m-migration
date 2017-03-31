@@ -13,16 +13,17 @@ import config from 'config';
 import seeders from './seeders';
 
 function initUmzug(options) {
-  const sequelize = new Sequelize(Object.assign({}, config.database, {
-    host: options.host,
-    username: options.username,
-    password: options.password,
-    database: options.database,
+  let cfg = config.database || {};
+  const sequelize = new Sequelize({
+    host: options.host || cfg.host || 'mysql',
+    username: options.username || cfg.username || 'root',
+    password: options.password || cfg.password,
+    database: options.database || cfg.database,
     dialect: 'mysql',
     define: {
       freezeTableName: true,
     }
-  }));
+  });
   const queryInterface = new QueryInterface(sequelize);
 
 //noinspection SpellCheckingInspection
