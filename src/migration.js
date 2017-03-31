@@ -32,8 +32,7 @@ function initDatabase(options) {
 
   let sequelize = new Sequelize(opt2);
 
-  return sequelize.query('CREATE DATABASE IF NOT EXISTS :dbname COLLATE = "utf8_general_ci"',
-      {replacements: {dbname: options.database}, type: sequelize.QueryTypes.RAW});
+  return sequelize.query(`CREATE DATABASE IF NOT EXISTS ${options.database} COLLATE = "utf8_general_ci"`);
 }
 
 function getUmzug(options, queryInterface, sequelize) {
