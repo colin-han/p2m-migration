@@ -22,7 +22,7 @@ function initUmzug(options) {
     define: {
       freezeTableName: true,
     }
-  });
+  }));
   const queryInterface = new QueryInterface(sequelize);
 
 //noinspection SpellCheckingInspection
