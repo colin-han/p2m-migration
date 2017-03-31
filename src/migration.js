@@ -8,14 +8,16 @@ import QueryInterface from 'sequelize/lib/query-interface';
 //noinspection SpellCheckingInspection
 import Umzug from 'umzug';
 import yargs from 'yargs';
+import config from 'config';
 
 import seeders from './seeders';
 
 function initUmzug(options) {
-  const sequelize = new Sequelize({
+  const sequelize = new Sequelize(Object.assign({}, config.database, {
     host: options.host,
     username: options.username,
     password: options.password,
+    database: options.database,
     dialect: 'mysql',
     define: {
       freezeTableName: true,
@@ -68,6 +70,8 @@ if (!module.parent) {
       .alias('username', 'u')
       .describe('password', 'MySql database password')
       .alias('password', 'p')
+      .describe('database', 'database name')
+      .alias('database', 'd')
       .describe('migrations', 'Migrations folder path')
       .alias('migrations', 'm')
       .describe('seeders', 'Seeders folder path')
