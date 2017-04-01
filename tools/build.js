@@ -37,8 +37,10 @@ let promise = Promise.resolve();
 promise = promise.then(() => del(['build/*']));
 
 // Compile source code into a distributable format with Babel
-let external = Object.keys(pkg.dependencies)
-                  .concat(Object.keys(pkg.peerDependencies));
+let external = Object.keys(pkg.dependencies);
+if (pkg.peerDependencies) {
+  external = external.concat(Object.keys(pkg.peerDependencies));
+}
 for (const file of files) {
   for (const entry of pkg._entries) {
     promise = promise.then(() => rollup.rollup({
