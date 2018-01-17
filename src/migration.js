@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 /**
  * Created by colinhan on 07/11/2016.
  */

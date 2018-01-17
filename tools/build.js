@@ -63,6 +63,7 @@ for (const file of files) {
       ],
     }).then(bundle => bundle.write({
       dest: `build/${file.output || 'main'}/${entry}${file.ext}`,
+      banner: '#!/usr/bin/env node',
       format: file.format,
       sourceMap: !file.minify,
       exports: 'named',
