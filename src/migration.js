@@ -24,8 +24,26 @@ function banner() {
   console.log('');
 }
 
+function getConfig(options) {
+  function getValue(obj, path) {
+    if (path.length === 1) {
+      return obj[path[0]];
+    }
+
+    if (obj === undefined) {
+      return obj;
+    }
+
+    let newPath = path.slice(1);
+    return getValue(obj[path[0]], newPath);
+  }
+
+  let segment = options.config || 'database';
+  let p = segment.split('/');
+  return getValue(config, p);
+}
 function getDbOptions(options) {
-  let cfg = config.database || {};
+  let cfg = getConfig(options) || {};
   return {
     host: options.host || cfg.host || 'mysql',
     username: options.username || cfg.username || 'root',
@@ -141,6 +159,8 @@ if (!module.parent) {
       .alias('migrations', 'm')
       .describe('seeders', 'Seeders folder path')
       .alias('seeders', 's')
+      .describe('config', 'JSON path to setting variable in config file.')
+      .alias('config', 'c')
       .command(['up', '*'], 'upward database to newer state.', {
         target: {
           alias: 't',
