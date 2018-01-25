@@ -1,7 +1,7 @@
 /**
  * Created by colinhan on 07/11/2016.
  */
-
+import fs from 'fs';
 import co from 'co';
 import Sequelize from 'sequelize';
 import QueryInterface from 'sequelize/lib/query-interface';
