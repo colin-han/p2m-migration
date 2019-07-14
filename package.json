@@ -4,7 +4,7 @@
     "migration"
   ],
   "name": "p2m-migration",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "Sequelize migration enhance module to support most P2M project to do migration.",
   "main": "main/migration.js",
   "repository": "https://github.com/colin-han/p2m-migration.git",
@@ -16,7 +16,7 @@
     "config": "^1.25.1",
     "mysql": "^2.13.0",
     "p2m-common-logger": "^1.0.0",
-    "sequelize": "^3.30.2",
+    "sequelize": "^5.10.0",
     "umzug": "^1.11.0",
     "yargs": "^7.0.2"
   },
