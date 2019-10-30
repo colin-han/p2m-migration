@@ -14,9 +14,9 @@
     "co": "^4.6.0",
     "colors": "^1.1.2",
     "config": "^1.25.1",
-    "mysql": "^2.13.0",
+    "mysql": "^2.17.1",
     "p2m-common-logger": "^1.0.0",
-    "sequelize": "^5.10.0",
+    "sequelize": "^5.21.2",
     "umzug": "^1.11.0",
     "yargs": "^7.0.2"
   },
